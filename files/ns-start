@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#Checking for config files
+CONFIG=$(ls -A /etc/bareos-webui)
+
+if [ "$CONFIG" = "" ];then
+	tar -xzvf /opt/bareos-etc-webui.tgz -C /
+fi
+
+
+#Fixing Bareos Permissions
+chown -R bareos.bareos /etc/bareos-webui
+chown -R www-data.www-data /etc/apache2
+
+
+
+#Main Process
+exec /usr/sbin/apachectl -D FOREGROUND
